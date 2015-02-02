@@ -287,3 +287,11 @@ footer {
 // ... Otherwise it really bloats up the top of the CSS file and makes it difficult to find the start
 @import "_highlights";
 @import "_svg-icons";
+
+
+.letags li
+{
+display: inline;
+list-style-type: none;
+padding-right: 20px;
+}

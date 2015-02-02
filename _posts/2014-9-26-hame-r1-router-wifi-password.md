@@ -1,6 +1,14 @@
 ---
 layout: post
 title: HAME R1 router WIFI password
+category: hardware
+tags:
+- HAME
+- HAME R1
+- router
+- Ebay
+- Password
+- WIFI
 ---
 
 ![_config.yml]({{ site.baseurl }}/images/hamer1.jpg)

@@ -47,6 +47,10 @@ markdown: redcarpet
 highlighter: pygments
 permalink: /:title/
 
+tag_permalink_style: pretty
+tag_page_layout: tag_page
+tag_page_dir: tag
+
 # The release of Jekyll Now that you're using
 version: v1.0.0
 
