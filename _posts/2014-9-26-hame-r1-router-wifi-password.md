@@ -20,7 +20,9 @@ So your working password (based on the above deductions) should be **7c3x1238**
 If you stare at the format a for minute and analyse it. There are 7 characters before the last one. The last character is a number 8, the first is 7. The third character is always 3. The second is always c.
 
 Youtube Videos: 
+
 [ộ phát wifi hame r1](https://www.youtube.com/watch?v=9NwZI5jEbNI)
+
 [HAME MPR-A1 Review](https://www.youtube.com/watch?v=z73NNcyo9yl)
 
 For a good introduction on HAME routers. See [Hame 3G Wi-Fi Modem – Review, Manual Settings for Non Chinese Users](http://www.3ptechies.com/it-support/networking/hame-3g-wi-fi-modem-review-manual-settings-english.html)

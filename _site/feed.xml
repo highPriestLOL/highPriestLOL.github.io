@@ -3,8 +3,8 @@
   <channel>
     <title>Anthony Oduor</title>
     <description>Web Developer from Earth</description>
-    <link></link>
-    <atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
+    <link>amongthe.xyz</link>
+    <atom:link href="amongthe.xyz/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
         <title>HAME R1 router WIFI password</title>
@@ -24,15 +24,17 @@
 
 &lt;p&gt;If you stare at the format a for minute and analyse it. There are 7 characters before the last one. The last character is a number 8, the first is 7. The third character is always 3. The second is always c.&lt;/p&gt;
 
-&lt;p&gt;Youtube Videos: 
-&lt;a href=&quot;https://www.youtube.com/watch?v=9NwZI5jEbNI&quot;&gt;ộ phát wifi hame r1&lt;/a&gt;
-&lt;a href=&quot;https://www.youtube.com/watch?v=z73NNcyo9yl&quot;&gt;HAME MPR-A1 Review&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Youtube Videos: &lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=9NwZI5jEbNI&quot;&gt;ộ phát wifi hame r1&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=z73NNcyo9yl&quot;&gt;HAME MPR-A1 Review&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;For a good introduction on HAME routers. See &lt;a href=&quot;http://www.3ptechies.com/it-support/networking/hame-3g-wi-fi-modem-review-manual-settings-english.html&quot;&gt;Hame 3G Wi-Fi Modem – Review, Manual Settings for Non Chinese Users&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Fri, 26 Sep 2014 00:00:00 +0300</pubDate>
-        <link>/hame-r1-router-wifi-password/</link>
-        <guid isPermaLink="true">/hame-r1-router-wifi-password/</guid>
+        <link>amongthe.xyz/hame-r1-router-wifi-password/</link>
+        <guid isPermaLink="true">amongthe.xyz/hame-r1-router-wifi-password/</guid>
       </item>
     
   </channel>
