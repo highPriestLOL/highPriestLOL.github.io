@@ -4,12 +4,12 @@ title: About
 permalink: /about/
 ---
 
-Some information about you!
+Laziness personified.
 
 ### More Information
 
-A place to include any other types of information that you'd like to include about yourself. 
+You can also find me on portals.
 
 ### Contact me
 
-[email@domain.com](mailto:email@domain.com)
+[anthony@modio.se](mailto:anthony@modio.se)

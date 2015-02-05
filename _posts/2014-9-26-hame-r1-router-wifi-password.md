@@ -17,9 +17,9 @@ Recently picked up - HAME R1 Portable 4400mAh Battery Powered 3G - off [ebay](ht
 
 Mine wasn't there. [Hametech](http://www.hametech.com/html/product/), the english website of the manufacturer is most useless as the support pages are long dead... Frustrated by the seller (By now, 4 messages sent to the seller via Skype, Ebay and Email) and now by the manufacturer; I resorted to youtube to see if I can find any HAME unboxings that will help or someone with such a problem in the comments section. Bupkis.
 
-Hmmm, but as I was watching the videos, I made an observation regarding the WIFI passsword, there was a pattern. I picked up a similarity on the initial characters as they typed the password. The first 3 characters were always the same i.e. started with 7c3. The default password uses WPA encryption so the password has to have a minimum of 8 characters.
+Hmmm, but as I was watching the videos, I made an observation regarding the WIFI passsword, there was a pattern. I picked up a similarity on the initial characters as they typed the password. The first 3 characters were always the same i.e. started with **7c3**. The default password uses WPA encryption so the password has to have a minimum of 8 characters.
 
-I also made a visual connection between the default SSID written at the back of the device as they typed. Hame SSID is in the format **HAME_R1_xxxx** with **xxxx** being the unique set of characters with each device. So if your device had SSID **HAME_R1_x123**, then you extract the characters after the last underscore and append them to 7c3. You end up with **7c3x123**
+I also made a visual connection between the default SSID written at the back of the device as they typed. Hame SSID is in the format **`HAME_R1_xxxx`** with **xxxx** being the unique set of characters with each device. So if your device had SSID **`HAME_R1_x123`**, then you extract the characters after the last underscore and append them to 7c3. You end up with **7c3x123**
 
 You still won't be able to connect as most devices validate password to meet the minimum no. of characters before allowing you to connect at all. I went back to two of the videos I had watched and as fate would have it, they both ended with 8 as the final character of the WIFI password.
 
