@@ -7,6 +7,73 @@
     <atom:link href="amongthe.xyz/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>Meet Pacgraph</title>
+        <description>&lt;p&gt;Pacgraph is a tool on Arch linux to graphically represent all your installed packages.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-BASH&quot; data-lang=&quot;BASH&quot;&gt;pacman -S pacgraph
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;By default, pacgraph generates an SVG and PNG of all your packages and their dependencies. You can customize the output though. The svg below was generate by.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-BASH&quot; data-lang=&quot;BASH&quot;&gt;pacgraph -b &lt;span class=&quot;s2&quot;&gt;&amp;quot;#302e23&amp;quot;&lt;/span&gt; -l &lt;span class=&quot;s2&quot;&gt;&amp;quot;#94c52a&amp;quot;&lt;/span&gt; -t &lt;span class=&quot;s2&quot;&gt;&amp;quot;#b5c94a&amp;quot;&lt;/span&gt; -d &lt;span class=&quot;s2&quot;&gt;&amp;quot;#cbee98&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&quot;/images/pacgraph.png&quot; alt=&quot;_config.yml&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;For more &lt;a href=&quot;http://kmkeen.com/pacgraph/index.html&quot;&gt;pacgraph options&lt;/a&gt;.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 19 Nov 2014 00:00:00 +0300</pubDate>
+        <link>amongthe.xyz/meet-pacgraph/</link>
+        <guid isPermaLink="true">amongthe.xyz/meet-pacgraph/</guid>
+      </item>
+    
+      <item>
+        <title>MySQLdb with MariaDB 10.0.1 schema changes</title>
+        <description>&lt;p&gt;Developing with Django 1.7 (Using MySQLdb for the database engine) on Arch Linux using MariaDB introduced a bizarre error. Google didn&amp;#39;t offer much help in this. I kept getting the error below whenever I migrate field changes on my models.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;_mysql_exceptions.Warning: Table &amp;#39;mysql.column_stats&amp;#39; doesn&amp;#39;t exist
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Apparently, a some recent changes as of MariaDB 10.0.1 labeled &lt;strong&gt;Engine-independent table statistics&lt;/strong&gt; have resulted in additional system tables for gathering statistics. I am not sure where my server running version &lt;em&gt;10.0.14-MariaDB-log&lt;/em&gt; took the tables doe&amp;#39; but the warning left my migrations inconsistent and some painful manual repair work after. Just incase, here are the SQL schemas to create the tables incase they aren&amp;#39;t.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-SQL&quot; data-lang=&quot;SQL&quot;&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;EXISTS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;column_stats&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;db_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;COMMENT&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Database the table is in.&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;table_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;COMMENT&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Table name.&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;column_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;COMMENT&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Name of the column.&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;min_value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;255&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DEFAULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;COMMENT&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Minimum value in the table (in text form).&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;max_value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;255&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;COMMENT&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Maximum value in the table (in text form).&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nulls_ratio&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;decimal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DEFAULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;COMMENT&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Fraction of NULL values (0 - no NULLs, 0.5 - half values are NULLs, 1 - all values are NULLs).&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;avg_length&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;decimal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DEFAULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;COMMENT&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Average length of column value, in bytes. Counted as if one ran SELECT AVG(LENGTH(col)). This doesn&amp;#39;&amp;#39;t count NULL bytes, assumes endspace removal for CHAR(n), etc.&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;avg_frequency&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;decimal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DEFAULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;COMMENT&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Average number of records with the same value&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hist_size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tinyint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DEFAULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;COMMENT&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Histogram size in bytes, from 0-255.&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hist_type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;enum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;SINGLE_PREC_HB&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;DOUBLE_PREC_HB&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DEFAULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;COMMENT&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Histogram type. See the histogram_type system variable.&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;histogram&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;varbinary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;255&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DEFAULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ENGINE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;InnoDB&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DEFAULT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CHARSET&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;utf8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;EXISTS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index_stats&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;db_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;COMMENT&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Database the table is in.&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;table_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;COMMENT&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Table name&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;COMMENT&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Name of the index&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;prefix_arity&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;COMMENT&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Index prefix length. 1 for the first keypart, 2 for the first two, and so on. InnoDB&amp;#39;&amp;#39;s extended keys are supported.&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;avg_frequency&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;decimal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DEFAULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;COMMENT&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Average number of records one will find for given values of (keypart1, keypart2, ..), provided the values will be found in the table.&amp;#39;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ENGINE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;InnoDB&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DEFAULT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CHARSET&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;utf8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;EXISTS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;table_stats&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;db_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;COMMENT&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Database the table is in .&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;table_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;COMMENT&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Table name.&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;cardinality&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;bigint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;21&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DEFAULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;COMMENT&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Number of records in the table.&amp;#39;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ENGINE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;InnoDB&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DEFAULT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CHARSET&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;utf8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;ALTER&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;column_stats&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;ADD&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;PRIMARY&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;KEY&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;db_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;table_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;column_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;ALTER&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index_stats&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;ADD&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;PRIMARY&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;KEY&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;db_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;table_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;prefix_arity&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;ALTER&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;table_stats&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;ADD&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;PRIMARY&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;KEY&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;db_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;table_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;More about the MariaDB changes &lt;a href=&quot;https://mariadb.com/kb/en/mariadb/engine-independent-table-statistics/&quot;&gt;Engine-independent table statistics&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Wed, 12 Nov 2014 00:00:00 +0300</pubDate>
+        <link>amongthe.xyz/mysqldb-with-mariadb-10-0-1-schema-changes/</link>
+        <guid isPermaLink="true">amongthe.xyz/mysqldb-with-mariadb-10-0-1-schema-changes/</guid>
+      </item>
+    
+      <item>
         <title>HAME R1 router WIFI password</title>
         <description>&lt;p&gt;&lt;img src=&quot;/images/hamer1.jpg&quot; alt=&quot;_config.yml&quot;&gt;&lt;/p&gt;
 
@@ -35,6 +102,92 @@
         <pubDate>Fri, 26 Sep 2014 00:00:00 +0300</pubDate>
         <link>amongthe.xyz/hame-r1-router-wifi-password/</link>
         <guid isPermaLink="true">amongthe.xyz/hame-r1-router-wifi-password/</guid>
+      </item>
+    
+      <item>
+        <title>PHPMailer add event to Outlook calendar</title>
+        <description>&lt;p&gt;A quick guide to getting PHPMailer send proper 
+Outlook events. I&amp;#39;d like to highlight three significant variables in the code i.e. $event_id, $sequence, $status.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;x&quot;&gt;$event_id = 1234;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This is used to generate a UID for this particular event and applys when making future alterations to an event.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;x&quot;&gt;$sequence = 0;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The sequence marks different &amp;#39;revisions&amp;#39; of the event as significant changes are made. Ideally starts from zero. If e.g. the date is changed, the second email sent will have 1 as the sequence number. This parameter together with the UID helps Outlook update the correct event on the user&amp;#39;s calendar.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;x&quot;&gt;$status = &amp;#39;TENTATIVE&amp;#39;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Status parameter can only have values &amp;#39;TENTATIVE&amp;#39;, &amp;#39;CONFIRMED&amp;#39; or &amp;#39;CANCELLED&amp;#39;. Probably used in that order as well. When set to cancelled, the emailed event update will mark the event as cancelled by the organizer and also prompt the user to remove it from their calendar.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;x&quot;&gt;// event params&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$summary = &amp;#39;Summary of the event&amp;#39;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$venue = &amp;#39;Simbawanga&amp;#39;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$start = &amp;#39;20140820&amp;#39;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$start_time = &amp;#39;160630&amp;#39;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$end = &amp;#39;20140820&amp;#39;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$end_time = &amp;#39;180630&amp;#39;;&lt;/span&gt;
+
+&lt;span class=&quot;x&quot;&gt;//PHPMailer&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$mail = new PHPMailer();&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$mail-&amp;gt;isSMTP();&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$mail-&amp;gt;SMTPDebug = 0;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$mail-&amp;gt;Host = &amp;#39;kaserver.com&amp;#39;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$mail-&amp;gt;Port = 25;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$mail-&amp;gt;SMTPAuth = false;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$mail-&amp;gt;IsHTML(false);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$mail-&amp;gt;setFrom(&amp;#39;your@kaserver.com&amp;#39;, &amp;#39;Water Lemon&amp;#39;);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$mail-&amp;gt;addReplyTo(&amp;#39;your@kaserver.com&amp;#39;, &amp;#39;Water Melon&amp;#39;);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$mail-&amp;gt;addAddress(&amp;#39;them@kaserver.com&amp;#39;,&amp;#39;Recipient Addy&amp;#39;);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$mail-&amp;gt;ContentType = &amp;#39;text/calendar&amp;#39;;&lt;/span&gt;
+
+&lt;span class=&quot;x&quot;&gt;$mail-&amp;gt;Subject = &amp;quot;Outlooked Event&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$mail-&amp;gt;addCustomHeader(&amp;#39;MIME-version&amp;#39;,&amp;quot;1.0&amp;quot;);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$mail-&amp;gt;addCustomHeader(&amp;#39;Content-type&amp;#39;,&amp;quot;text/calendar; method=REQUEST; charset=UTF-8&amp;quot;);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$mail-&amp;gt;addCustomHeader(&amp;#39;Content-Transfer-Encoding&amp;#39;,&amp;quot;7bit&amp;quot;);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$mail-&amp;gt;addCustomHeader(&amp;#39;X-Mailer&amp;#39;,&amp;quot;Microsoft Office Outlook 12.0&amp;quot;);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$mail-&amp;gt;addCustomHeader(&amp;quot;Content-class: urn:content-classes:calendarmessage&amp;quot;);&lt;/span&gt;
+
+&lt;span class=&quot;x&quot;&gt;$ical = &amp;quot;BEGIN:VCALENDAR\r\n&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$ical .= &amp;quot;VERSION:2.0\r\n&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$ical .= &amp;quot;PRODID:-//YourCassavaLtd//EateriesDept//EN\r\n&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$ical .= &amp;quot;METHOD:REQUEST\r\n&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$ical .= &amp;quot;BEGIN:VEVENT\r\n&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$ical .= &amp;quot;ORGANIZER;SENT-BY=\&amp;quot;MAILTO:organizer@kaserver.com\&amp;quot;:MAILTO:onbehalfoforganizer@kaserver.com\r\n&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$ical .= &amp;quot;ATTENDEE;CN=them@kaserver.com;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;RSVP=TRUE:mailto:organizer@kaserver.com\r\n&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$ical .= &amp;quot;UID:&amp;quot;.strtoupper(md5($event_id)).&amp;quot;-kaserver.com\r\n&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$ical .= &amp;quot;SEQUENCE:&amp;quot;.$sequence.&amp;quot;\r\n&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$ical .= &amp;quot;STATUS:&amp;quot;.$status.&amp;quot;\r\n&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$ical .= &amp;quot;DTSTAMPTZID=Africa/Nairobi:&amp;quot;.date(&amp;#39;Ymd&amp;#39;).&amp;#39;T&amp;#39;.date(&amp;#39;His&amp;#39;).&amp;quot;\r\n&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$ical .= &amp;quot;DTSTART:&amp;quot;.$start.&amp;quot;T&amp;quot;.$start_time.&amp;quot;\r\n&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$ical .= &amp;quot;DTEND:&amp;quot;.$end.&amp;quot;T&amp;quot;.$end_time.&amp;quot;\r\n&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$ical .= &amp;quot;LOCATION:&amp;quot;.$venue.&amp;quot;\r\n&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$ical .= &amp;quot;SUMMARY:&amp;quot;.$summary.&amp;quot;\r\n&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$ical .= &amp;quot;DESCRIPTION:&amp;quot;.$event[&amp;#39;description&amp;#39;].&amp;quot;\r\n&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$ical .= &amp;quot;BEGIN:VALARM\r\n&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$ical .= &amp;quot;TRIGGER:-PT15M\r\n&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$ical .= &amp;quot;ACTION:DISPLAY\r\n&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$ical .= &amp;quot;DESCRIPTION:Reminder\r\n&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$ical .= &amp;quot;END:VALARM\r\n&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$ical .= &amp;quot;END:VEVENT\r\n&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$ical .= &amp;quot;END:VCALENDAR\r\n&amp;quot;;&lt;/span&gt;
+
+&lt;span class=&quot;x&quot;&gt;$mail-&amp;gt;Body = $ical;&lt;/span&gt;
+
+&lt;span class=&quot;x&quot;&gt;//send the message, check for errors&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;if(!$mail-&amp;gt;send()) {&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$this-&amp;gt;error = &amp;quot;Mailer Error: &amp;quot; . $mail-&amp;gt;ErrorInfo;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;return false;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;} else {&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$this-&amp;gt;error = &amp;quot;Message sent!&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;return true;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Hidden above in the mesh of code is:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;x&quot;&gt;$mail-&amp;gt;ContentType = &amp;#39;text/calendar&amp;#39;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;By far the most important line to get PHPMailer sending an acceptable event to outlook calendar. It holds the key to unlocking all that code.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 30 Aug 2014 00:00:00 +0300</pubDate>
+        <link>amongthe.xyz/phpmailer-add-event-to-outlook-calendar/</link>
+        <guid isPermaLink="true">amongthe.xyz/phpmailer-add-event-to-outlook-calendar/</guid>
       </item>
     
   </channel>

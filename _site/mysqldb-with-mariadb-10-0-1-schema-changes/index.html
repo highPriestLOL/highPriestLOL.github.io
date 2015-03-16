@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    <title>MySQLdb with MariaDB 10.0.1 schema changes – Anthony Oduor – Web Developer from Earth</title>
+
+    <meta name="author" content="Anthony Oduor" />
+    <meta name="description" content="Web Developer from Earth">
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="Anthony Oduor - Web Developer from Earth" href="/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/" class="site-avatar"><img src="https://raw.githubusercontent.com/highPriestLOL/highPriestLOL.github.io/master/images/arvo-part.jpg" /></a>
+          
+          <div class="site-info">
+            <h1 class="site-name"><a href="/">Anthony Oduor</a></h1>
+            <p class="site-description">Web Developer from Earth</p>
+          </div>
+          
+          <nav>
+            <a href="/">Blog</a>
+            <a href="/about">About</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  <h1>MySQLdb with MariaDB 10.0.1 schema changes</h1>
+
+  <div class="entry">
+    <p>Developing with Django 1.7 (Using MySQLdb for the database engine) on Arch Linux using MariaDB introduced a bizarre error. Google didn&#39;t offer much help in this. I kept getting the error below whenever I migrate field changes on my models.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">_mysql_exceptions.Warning: Table &#39;mysql.column_stats&#39; doesn&#39;t exist
+</code></pre></div>
+<p>Apparently, a some recent changes as of MariaDB 10.0.1 labeled <strong>Engine-independent table statistics</strong> have resulted in additional system tables for gathering statistics. I am not sure where my server running version <em>10.0.14-MariaDB-log</em> took the tables doe&#39; but the warning left my migrations inconsistent and some painful manual repair work after. Just incase, here are the SQL schemas to create the tables incase they aren&#39;t.</p>
+<div class="highlight"><pre><code class="language-SQL" data-lang="SQL"><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="o">`</span><span class="n">column_stats</span><span class="o">`</span> <span class="p">(</span>
+<span class="o">`</span><span class="n">db_name</span><span class="o">`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">COMMENT</span> <span class="s1">&#39;Database the table is in.&#39;</span><span class="p">,</span>
+<span class="o">`</span><span class="k">table_name</span><span class="o">`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">COMMENT</span> <span class="s1">&#39;Table name.&#39;</span><span class="p">,</span>
+<span class="o">`</span><span class="k">column_name</span><span class="o">`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">COMMENT</span> <span class="s1">&#39;Name of the column.&#39;</span><span class="p">,</span>
+<span class="o">`</span><span class="n">min_value</span><span class="o">`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="k">NULL</span> <span class="k">COMMENT</span> <span class="s1">&#39;Minimum value in the table (in text form).&#39;</span><span class="p">,</span>
+<span class="o">`</span><span class="n">max_value</span><span class="o">`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">COMMENT</span> <span class="s1">&#39;Maximum value in the table (in text form).&#39;</span><span class="p">,</span>
+<span class="o">`</span><span class="n">nulls_ratio</span><span class="o">`</span> <span class="nb">decimal</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="k">NULL</span> <span class="k">COMMENT</span> <span class="s1">&#39;Fraction of NULL values (0 - no NULLs, 0.5 - half values are NULLs, 1 - all values are NULLs).&#39;</span><span class="p">,</span>
+<span class="o">`</span><span class="n">avg_length</span><span class="o">`</span> <span class="nb">decimal</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="k">NULL</span> <span class="k">COMMENT</span> <span class="s1">&#39;Average length of column value, in bytes. Counted as if one ran SELECT AVG(LENGTH(col)). This doesn&#39;&#39;t count NULL bytes, assumes endspace removal for CHAR(n), etc.&#39;</span><span class="p">,</span>
+<span class="o">`</span><span class="n">avg_frequency</span><span class="o">`</span> <span class="nb">decimal</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="k">NULL</span> <span class="k">COMMENT</span> <span class="s1">&#39;Average number of records with the same value&#39;</span><span class="p">,</span>
+<span class="o">`</span><span class="n">hist_size</span><span class="o">`</span> <span class="n">tinyint</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="n">unsigned</span> <span class="k">DEFAULT</span> <span class="k">NULL</span> <span class="k">COMMENT</span> <span class="s1">&#39;Histogram size in bytes, from 0-255.&#39;</span><span class="p">,</span>
+<span class="o">`</span><span class="n">hist_type</span><span class="o">`</span> <span class="n">enum</span><span class="p">(</span><span class="s1">&#39;SINGLE_PREC_HB&#39;</span><span class="p">,</span><span class="s1">&#39;DOUBLE_PREC_HB&#39;</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="k">NULL</span> <span class="k">COMMENT</span> <span class="s1">&#39;Histogram type. See the histogram_type system variable.&#39;</span><span class="p">,</span>
+<span class="o">`</span><span class="n">histogram</span><span class="o">`</span> <span class="n">varbinary</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="k">NULL</span>
+<span class="p">)</span> <span class="n">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span> <span class="k">DEFAULT</span> <span class="n">CHARSET</span><span class="o">=</span><span class="n">utf8</span><span class="p">;</span>
+
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="o">`</span><span class="n">index_stats</span><span class="o">`</span> <span class="p">(</span>
+<span class="o">`</span><span class="n">db_name</span><span class="o">`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">COMMENT</span> <span class="s1">&#39;Database the table is in.&#39;</span><span class="p">,</span>
+<span class="o">`</span><span class="k">table_name</span><span class="o">`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">COMMENT</span> <span class="s1">&#39;Table name&#39;</span><span class="p">,</span>
+<span class="o">`</span><span class="n">index_name</span><span class="o">`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">COMMENT</span> <span class="s1">&#39;Name of the index&#39;</span><span class="p">,</span>
+<span class="o">`</span><span class="n">prefix_arity</span><span class="o">`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="n">unsigned</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">COMMENT</span> <span class="s1">&#39;Index prefix length. 1 for the first keypart, 2 for the first two, and so on. InnoDB&#39;&#39;s extended keys are supported.&#39;</span><span class="p">,</span>
+<span class="o">`</span><span class="n">avg_frequency</span><span class="o">`</span> <span class="nb">decimal</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="k">NULL</span> <span class="k">COMMENT</span> <span class="s1">&#39;Average number of records one will find for given values of (keypart1, keypart2, ..), provided the values will be found in the table.&#39;</span>
+<span class="p">)</span> <span class="n">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span> <span class="k">DEFAULT</span> <span class="n">CHARSET</span><span class="o">=</span><span class="n">utf8</span><span class="p">;</span>
+
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="o">`</span><span class="n">table_stats</span><span class="o">`</span> <span class="p">(</span>
+<span class="o">`</span><span class="n">db_name</span><span class="o">`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">COMMENT</span> <span class="s1">&#39;Database the table is in .&#39;</span><span class="p">,</span>
+<span class="o">`</span><span class="k">table_name</span><span class="o">`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">COMMENT</span> <span class="s1">&#39;Table name.&#39;</span><span class="p">,</span>
+<span class="o">`</span><span class="k">cardinality</span><span class="o">`</span> <span class="nb">bigint</span><span class="p">(</span><span class="mi">21</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="k">NULL</span> <span class="k">COMMENT</span> <span class="s1">&#39;Number of records in the table.&#39;</span>
+<span class="p">)</span> <span class="n">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span> <span class="k">DEFAULT</span> <span class="n">CHARSET</span><span class="o">=</span><span class="n">utf8</span><span class="p">;</span>
+
+<span class="k">ALTER</span> <span class="k">TABLE</span> <span class="o">`</span><span class="n">column_stats</span><span class="o">`</span>
+<span class="k">ADD</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="o">`</span><span class="n">db_name</span><span class="o">`</span><span class="p">,</span><span class="o">`</span><span class="k">table_name</span><span class="o">`</span><span class="p">,</span><span class="o">`</span><span class="k">column_name</span><span class="o">`</span><span class="p">);</span>
+
+<span class="k">ALTER</span> <span class="k">TABLE</span> <span class="o">`</span><span class="n">index_stats</span><span class="o">`</span>
+<span class="k">ADD</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="o">`</span><span class="n">db_name</span><span class="o">`</span><span class="p">,</span><span class="o">`</span><span class="k">table_name</span><span class="o">`</span><span class="p">,</span><span class="o">`</span><span class="n">index_name</span><span class="o">`</span><span class="p">,</span><span class="o">`</span><span class="n">prefix_arity</span><span class="o">`</span><span class="p">);</span>
+
+<span class="k">ALTER</span> <span class="k">TABLE</span> <span class="o">`</span><span class="n">table_stats</span><span class="o">`</span>
+<span class="k">ADD</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="o">`</span><span class="n">db_name</span><span class="o">`</span><span class="p">,</span><span class="o">`</span><span class="k">table_name</span><span class="o">`</span><span class="p">);</span>
+</code></pre></div>
+<p>More about the MariaDB changes <a href="https://mariadb.com/kb/en/mariadb/engine-independent-table-statistics/">Engine-independent table statistics</a></p>
+
+
+    
+        
+    
+
+    <p id="post-meta"></p>
+  </div>
+
+  <div class="date">
+    Written on November 12, 2014
+  </div>
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+    
+	    var disqus_shortname = 'sansanthony'; 
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+
+
+
+<a href="http://github.com/highPriestLOL"><i class="svg-icon github"></i></a>
+
+
+
+
+<a href="http://twitter.com/outhorand"><i class="svg-icon twitter"></i></a>
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		
+		ga('create', 'UA-53969896-1', 'auto');
+		ga('send', 'pageview');
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>

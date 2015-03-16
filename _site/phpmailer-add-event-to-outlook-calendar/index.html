@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    <title>PHPMailer add event to Outlook calendar – Anthony Oduor – Web Developer from Earth</title>
+
+    <meta name="author" content="Anthony Oduor" />
+    <meta name="description" content="Web Developer from Earth">
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="Anthony Oduor - Web Developer from Earth" href="/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/" class="site-avatar"><img src="https://raw.githubusercontent.com/highPriestLOL/highPriestLOL.github.io/master/images/arvo-part.jpg" /></a>
+          
+          <div class="site-info">
+            <h1 class="site-name"><a href="/">Anthony Oduor</a></h1>
+            <p class="site-description">Web Developer from Earth</p>
+          </div>
+          
+          <nav>
+            <a href="/">Blog</a>
+            <a href="/about">About</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  <h1>PHPMailer add event to Outlook calendar</h1>
+
+  <div class="entry">
+    <p>A quick guide to getting PHPMailer send proper 
+Outlook events. I&#39;d like to highlight three significant variables in the code i.e. $event_id, $sequence, $status.</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">$event_id = 1234;</span>
+</code></pre></div>
+<p>This is used to generate a UID for this particular event and applys when making future alterations to an event.</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">$sequence = 0;</span>
+</code></pre></div>
+<p>The sequence marks different &#39;revisions&#39; of the event as significant changes are made. Ideally starts from zero. If e.g. the date is changed, the second email sent will have 1 as the sequence number. This parameter together with the UID helps Outlook update the correct event on the user&#39;s calendar.</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">$status = &#39;TENTATIVE&#39;;</span>
+</code></pre></div>
+<p>Status parameter can only have values &#39;TENTATIVE&#39;, &#39;CONFIRMED&#39; or &#39;CANCELLED&#39;. Probably used in that order as well. When set to cancelled, the emailed event update will mark the event as cancelled by the organizer and also prompt the user to remove it from their calendar.</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">// event params</span>
+<span class="x">$summary = &#39;Summary of the event&#39;;</span>
+<span class="x">$venue = &#39;Simbawanga&#39;;</span>
+<span class="x">$start = &#39;20140820&#39;;</span>
+<span class="x">$start_time = &#39;160630&#39;;</span>
+<span class="x">$end = &#39;20140820&#39;;</span>
+<span class="x">$end_time = &#39;180630&#39;;</span>
+
+<span class="x">//PHPMailer</span>
+<span class="x">$mail = new PHPMailer();</span>
+<span class="x">$mail-&gt;isSMTP();</span>
+<span class="x">$mail-&gt;SMTPDebug = 0;</span>
+<span class="x">$mail-&gt;Host = &#39;kaserver.com&#39;;</span>
+<span class="x">$mail-&gt;Port = 25;</span>
+<span class="x">$mail-&gt;SMTPAuth = false;</span>
+<span class="x">$mail-&gt;IsHTML(false);</span>
+<span class="x">$mail-&gt;setFrom(&#39;your@kaserver.com&#39;, &#39;Water Lemon&#39;);</span>
+<span class="x">$mail-&gt;addReplyTo(&#39;your@kaserver.com&#39;, &#39;Water Melon&#39;);</span>
+<span class="x">$mail-&gt;addAddress(&#39;them@kaserver.com&#39;,&#39;Recipient Addy&#39;);</span>
+<span class="x">$mail-&gt;ContentType = &#39;text/calendar&#39;;</span>
+
+<span class="x">$mail-&gt;Subject = &quot;Outlooked Event&quot;;</span>
+<span class="x">$mail-&gt;addCustomHeader(&#39;MIME-version&#39;,&quot;1.0&quot;);</span>
+<span class="x">$mail-&gt;addCustomHeader(&#39;Content-type&#39;,&quot;text/calendar; method=REQUEST; charset=UTF-8&quot;);</span>
+<span class="x">$mail-&gt;addCustomHeader(&#39;Content-Transfer-Encoding&#39;,&quot;7bit&quot;);</span>
+<span class="x">$mail-&gt;addCustomHeader(&#39;X-Mailer&#39;,&quot;Microsoft Office Outlook 12.0&quot;);</span>
+<span class="x">$mail-&gt;addCustomHeader(&quot;Content-class: urn:content-classes:calendarmessage&quot;);</span>
+
+<span class="x">$ical = &quot;BEGIN:VCALENDAR\r\n&quot;;</span>
+<span class="x">$ical .= &quot;VERSION:2.0\r\n&quot;;</span>
+<span class="x">$ical .= &quot;PRODID:-//YourCassavaLtd//EateriesDept//EN\r\n&quot;;</span>
+<span class="x">$ical .= &quot;METHOD:REQUEST\r\n&quot;;</span>
+<span class="x">$ical .= &quot;BEGIN:VEVENT\r\n&quot;;</span>
+<span class="x">$ical .= &quot;ORGANIZER;SENT-BY=\&quot;MAILTO:organizer@kaserver.com\&quot;:MAILTO:onbehalfoforganizer@kaserver.com\r\n&quot;;</span>
+<span class="x">$ical .= &quot;ATTENDEE;CN=them@kaserver.com;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;RSVP=TRUE:mailto:organizer@kaserver.com\r\n&quot;;</span>
+<span class="x">$ical .= &quot;UID:&quot;.strtoupper(md5($event_id)).&quot;-kaserver.com\r\n&quot;;</span>
+<span class="x">$ical .= &quot;SEQUENCE:&quot;.$sequence.&quot;\r\n&quot;;</span>
+<span class="x">$ical .= &quot;STATUS:&quot;.$status.&quot;\r\n&quot;;</span>
+<span class="x">$ical .= &quot;DTSTAMPTZID=Africa/Nairobi:&quot;.date(&#39;Ymd&#39;).&#39;T&#39;.date(&#39;His&#39;).&quot;\r\n&quot;;</span>
+<span class="x">$ical .= &quot;DTSTART:&quot;.$start.&quot;T&quot;.$start_time.&quot;\r\n&quot;;</span>
+<span class="x">$ical .= &quot;DTEND:&quot;.$end.&quot;T&quot;.$end_time.&quot;\r\n&quot;;</span>
+<span class="x">$ical .= &quot;LOCATION:&quot;.$venue.&quot;\r\n&quot;;</span>
+<span class="x">$ical .= &quot;SUMMARY:&quot;.$summary.&quot;\r\n&quot;;</span>
+<span class="x">$ical .= &quot;DESCRIPTION:&quot;.$event[&#39;description&#39;].&quot;\r\n&quot;;</span>
+<span class="x">$ical .= &quot;BEGIN:VALARM\r\n&quot;;</span>
+<span class="x">$ical .= &quot;TRIGGER:-PT15M\r\n&quot;;</span>
+<span class="x">$ical .= &quot;ACTION:DISPLAY\r\n&quot;;</span>
+<span class="x">$ical .= &quot;DESCRIPTION:Reminder\r\n&quot;;</span>
+<span class="x">$ical .= &quot;END:VALARM\r\n&quot;;</span>
+<span class="x">$ical .= &quot;END:VEVENT\r\n&quot;;</span>
+<span class="x">$ical .= &quot;END:VCALENDAR\r\n&quot;;</span>
+
+<span class="x">$mail-&gt;Body = $ical;</span>
+
+<span class="x">//send the message, check for errors</span>
+<span class="x">if(!$mail-&gt;send()) {</span>
+<span class="x">$this-&gt;error = &quot;Mailer Error: &quot; . $mail-&gt;ErrorInfo;</span>
+<span class="x">return false;</span>
+<span class="x">} else {</span>
+<span class="x">$this-&gt;error = &quot;Message sent!&quot;;</span>
+<span class="x">return true;</span>
+<span class="x">}</span>
+</code></pre></div>
+<p>Hidden above in the mesh of code is:</p>
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">$mail-&gt;ContentType = &#39;text/calendar&#39;;</span>
+</code></pre></div>
+<p>By far the most important line to get PHPMailer sending an acceptable event to outlook calendar. It holds the key to unlocking all that code.</p>
+
+
+    
+        
+    
+
+    <p id="post-meta"></p>
+  </div>
+
+  <div class="date">
+    Written on August 30, 2014
+  </div>
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+    
+	    var disqus_shortname = 'sansanthony'; 
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+
+
+
+<a href="http://github.com/highPriestLOL"><i class="svg-icon github"></i></a>
+
+
+
+
+<a href="http://twitter.com/outhorand"><i class="svg-icon twitter"></i></a>
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		
+		ga('create', 'UA-53969896-1', 'auto');
+		ga('send', 'pageview');
+	</script>
+	<!-- End Google Analytics -->
+
+
+  </body>
+</html>
