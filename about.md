@@ -6,6 +6,10 @@ permalink: /about/
 <iframe src="http://githubbadge.appspot.com/highPriestLOL" style="border: 0;height: 142px;width: 200px;overflow: hidden;" frameBorder="0"></iframe>
 Laziness personified.
 
+### Header photo (attribution)
+The photo is of legendary Estonian composer, Arvo Pärt. 
+![_config.yml](http://www.bach-cantatas.com/Pic-Lib-BIG/Part-Arvo-11.jpg)
+
 ### More Information
 
 You can also find me on selected portals.
