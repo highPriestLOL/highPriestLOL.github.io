@@ -8,7 +8,8 @@ Laziness personified.
 
 ### Header photo (attribution)
 The photo is of legendary Estonian composer, Arvo Pärt. 
-![_config.yml](http://www.bach-cantatas.com/Pic-Lib-BIG/Part-Arvo-11.jpg)
+![_config.yml](http://www.bach-cantatas.com/Pic-Lib-BIG/Part-Arvo-11.jpg).
+Love it! [Arvo Pärt Cantus in memoriam Benjamin Britten](https://www.youtube.com/watch?v=82-xbhfNR2g)
 
 ### More Information
 
